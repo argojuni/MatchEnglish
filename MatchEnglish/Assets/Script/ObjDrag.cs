@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ObjDrag : MonoBehaviour
 {
@@ -10,11 +12,17 @@ public class ObjDrag : MonoBehaviour
 
     Transform saveObj;
 
+    public SpriteRenderer spriteRenderer;
+
     public int ID;
 
+    public Text Texts;
+
+    public UnityEvent OnDragBenar;
     private void Start()
     {
         SavePosisi = transform.position;
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnMouseDown()
@@ -34,11 +42,16 @@ public class ObjDrag : MonoBehaviour
                 transform.localScale = new Vector3(0.35f, 0.2f);
                 //transform.localScale = saveObj.localScale;
 
+                spriteRenderer.sortingOrder -= 3;
+                saveObj.GetComponent<SpriteRenderer>().sortingOrder -=4;
+
                 saveObj.GetComponent<SpriteRenderer>().enabled = false;
                 saveObj.GetComponent<Rigidbody2D>().simulated = false;
                 saveObj.GetComponent<BoxCollider2D>().enabled = false;
 
                 gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
+                OnDragBenar.Invoke();
             }
             else
             {
