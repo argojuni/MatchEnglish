@@ -1,12 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSystem : MonoBehaviour
 {
     public static GameSystem instance;
 
+    [Header("Data Game")]
+    public bool isGameActive;
     public int Target;
+    public int DataLevel, DataScore, DataWaktu, DataDarah;
+
+    [Header("Komponen UI")]
+    public Text Text_Level,Text_Waktu,Text_Score;
+    public RectTransform ui_Darah;
+
 
     public bool SistemAcak;
 
@@ -33,10 +42,25 @@ public class GameSystem : MonoBehaviour
         AcakSoal();
     }
 
+    float s;
     private void Update()
     {
         if (Input.GetKey(KeyCode.Space))
             AcakSoal();
+
+        if (isGameActive)
+        {
+            if(DataWaktu > 0)
+            {
+                s += Time.deltaTime;
+                if (s >= 1)
+                {
+                    DataWaktu--;
+                    s = 0;
+                }
+            }
+        }
+        SetInfoUI();
     }
 
     public List<int> _AcakSoal = new List<int>();
@@ -77,5 +101,18 @@ public class GameSystem : MonoBehaviour
             Drop_Tempat[i].Gambar.sprite = DataPermainan[Drop_Tempat[i].Drop.ID].Gambar;
         }
 
+    }
+
+    public void SetInfoUI()
+    {
+        Text_Level.text = (DataLevel + 1).ToString();
+
+        int Menit = Mathf.FloorToInt(DataWaktu / 60);//01
+        int Detik = Mathf.FloorToInt(DataWaktu % 60);//30
+        Text_Waktu.text = Menit.ToString("00") + ":" + Detik.ToString("00");
+
+        Text_Score.text = DataScore.ToString();
+
+        ui_Darah.sizeDelta = new Vector2(316f * DataDarah, 286f);
     }
 }
