@@ -52,15 +52,23 @@ public class ObjDrag : MonoBehaviour
                 gameObject.GetComponent<BoxCollider2D>().enabled = false;
 
                 OnDragBenar.Invoke();
+
+                //Jika Berhasil
+                GameSystem.instance.DataSaatIni++;
+                Data.DataScore += 10;
             }
             else
             {
                 transform.position = SavePosisi;
+                //Jika Gagal
+                Data.DataDarah--;
             }
         }
         else
         {
             transform.position = SavePosisi;
+            // Jika tidak ada tempat
+
         }
     }
     private void OnMouseDrag()

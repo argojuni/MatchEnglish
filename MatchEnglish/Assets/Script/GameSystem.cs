@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class Data
+{
+    public static int DataLevel, DataScore, DataWaktu, DataDarah;
+}
 public class GameSystem : MonoBehaviour
 {
     public static GameSystem instance;
 
+    public static bool NewGame = true;
+
     [Header("Data Game")]
-    public bool isGameActive;
-    public int Target;
-    public int DataLevel, DataScore, DataWaktu, DataDarah;
+    public bool isGameActive; 
+    public bool isGameSelesai;
+    public bool SistemAcak;
+
+    public int Target, DataSaatIni;
 
     [Header("Komponen UI")]
     public Text Text_Level,Text_Waktu,Text_Score;
     public RectTransform ui_Darah;
 
+    [Header("Obj GUI")]
+    public GameObject Gui_Pause;
+    public GameObject GUI_Transisi;
 
-    public bool SistemAcak;
 
     [System.Serializable]
     public class DataGame
@@ -39,7 +49,30 @@ public class GameSystem : MonoBehaviour
 
     private void Start()
     {
-        AcakSoal();
+        ResetData();
+
+        Target = Drop_Tempat.Length;
+
+        if (SistemAcak)
+        {
+            AcakSoal();
+        }
+
+        isGameActive = true;
+    }
+
+    public void ResetData()
+    {
+        Data.DataWaktu = 60 * 3;
+
+        if (NewGame)
+        {
+            NewGame = false;
+            Data.DataWaktu = 60 * 3;
+            Data.DataScore = 0;
+            Data.DataDarah = 5;
+            Data.DataLevel = 0;
+        }
     }
 
     float s;
@@ -50,12 +83,12 @@ public class GameSystem : MonoBehaviour
 
         if (isGameActive)
         {
-            if(DataWaktu > 0)
+            if(Data.DataWaktu > 0)
             {
                 s += Time.deltaTime;
                 if (s >= 1)
                 {
-                    DataWaktu--;
+                    Data.DataWaktu--;
                     s = 0;
                 }
             }
@@ -105,14 +138,29 @@ public class GameSystem : MonoBehaviour
 
     public void SetInfoUI()
     {
-        Text_Level.text = (DataLevel + 1).ToString();
+        Text_Level.text = (Data.DataLevel + 1).ToString();
 
-        int Menit = Mathf.FloorToInt(DataWaktu / 60);//01
-        int Detik = Mathf.FloorToInt(DataWaktu % 60);//30
+        int Menit = Mathf.FloorToInt(Data.DataWaktu / 60);//01
+        int Detik = Mathf.FloorToInt(Data.DataWaktu % 60);//30
         Text_Waktu.text = Menit.ToString("00") + ":" + Detik.ToString("00");
 
-        Text_Score.text = DataScore.ToString();
+        Text_Score.text = Data.DataScore.ToString();
 
-        ui_Darah.sizeDelta = new Vector2(316f * DataDarah, 286f);
+        ui_Darah.sizeDelta = new Vector2(316f * Data.DataDarah, 286f);
     }
+
+    public void Btn_Pause(bool pause)
+    {
+        if (pause)
+        {
+            isGameActive = false;
+            Gui_Pause.SetActive(true);
+        }
+        else
+        {
+            isGameActive = true;
+            Gui_Pause.SetActive(false);
+        }
+    }
+
 }
