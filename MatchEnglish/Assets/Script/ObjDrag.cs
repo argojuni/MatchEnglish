@@ -73,8 +73,11 @@ public class ObjDrag : MonoBehaviour
     }
     private void OnMouseDrag()
     {
-        Vector2 Pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = Pos;
+        if (!GameSystem.instance.isGameSelesai)
+        {
+            Vector2 Pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = Pos;
+        }        
     }
 
     private void OnTriggerStay2D(Collider2D trig)

@@ -5,7 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class UI_Control : MonoBehaviour
 {
+    public bool IsTransisi, IsTidakPerlu;
+
     string SaveNamaScene;
+
+    private void Awake()
+    {
+        if(IsTransisi && IsTidakPerlu)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     public void btn_suara(int id)
     {
@@ -14,6 +24,7 @@ public class UI_Control : MonoBehaviour
 
     public void btn_pindah(string nama)
     {
+        this.gameObject.SetActive(true);
         SaveNamaScene = nama;
         GetComponent<Animator>().Play("OutTransisi");
     }

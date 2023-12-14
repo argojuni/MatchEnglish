@@ -11,17 +11,17 @@ public class GameSystem : MonoBehaviour
 {
     public static GameSystem instance;
 
-    public static bool NewGame = true;
+    int maxLevel = 1;
 
     [Header("Data Game")]
-    public bool isGameActive; 
+    public bool isGameActive;
     public bool isGameSelesai;
     public bool SistemAcak;
 
     public int Target, DataSaatIni;
 
     [Header("Komponen UI")]
-    public Text Text_Level,Text_Waktu,Text_Score;
+    public Text Text_Level, Text_Waktu, Text_Score;
     public RectTransform ui_Darah;
 
     [Header("Obj GUI")]
@@ -49,6 +49,9 @@ public class GameSystem : MonoBehaviour
 
     private void Start()
     {
+        isGameActive = false;
+        isGameSelesai = false;
+
         ResetData();
 
         Target = Drop_Tempat.Length;
@@ -58,6 +61,8 @@ public class GameSystem : MonoBehaviour
             AcakSoal();
         }
 
+        DataSaatIni = 0;
+
         isGameActive = true;
     }
 
@@ -65,9 +70,8 @@ public class GameSystem : MonoBehaviour
     {
         Data.DataWaktu = 60 * 3;
 
-        if (NewGame)
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Game0")
         {
-            NewGame = false;
             Data.DataWaktu = 60 * 3;
             Data.DataScore = 0;
             Data.DataDarah = 5;
@@ -81,9 +85,9 @@ public class GameSystem : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
             AcakSoal();
 
-        if (isGameActive)
+        if (isGameActive && !isGameSelesai)
         {
-            if(Data.DataWaktu > 0)
+            if (Data.DataWaktu > 0)
             {
                 s += Time.deltaTime;
                 if (s >= 1)
@@ -91,6 +95,49 @@ public class GameSystem : MonoBehaviour
                     Data.DataWaktu--;
                     s = 0;
                 }
+            }
+            if (Data.DataWaktu <= 0)
+            {
+                isGameActive = false;
+                isGameSelesai = true;
+
+                // Game Over
+                GUI_Transisi.GetComponent<UI_Control>().btn_pindah("GameSelesai");
+
+            }
+
+            if (Data.DataDarah <= 0)
+            {
+                isGameActive = false;
+                isGameSelesai = true;
+
+                //Fungsi Kalah
+                GUI_Transisi.GetComponent<UI_Control>().btn_pindah("GameSelesai");
+
+            }
+
+            if (DataSaatIni >= Target)
+            {
+                isGameSelesai = true;
+                isGameActive = false;
+
+                //Game Win
+                if (Data.DataLevel < (maxLevel - 1))
+                {
+                    Debug.Log(Data.DataLevel < (maxLevel - 1));
+
+                    Data.DataLevel++;
+                    //Pindah ke next level
+
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Game" + Data.DataLevel);
+                    //GUI_Transisi.GetComponent<UI_Control>().btn_pindah("Game"+Data.DataLevel);
+                }
+                else
+                {
+                    //Game selesai pindah ke menu selesai
+                    GUI_Transisi.GetComponent<UI_Control>().btn_pindah("GameEasySelesai");
+                }
+
             }
         }
         SetInfoUI();
@@ -107,7 +154,7 @@ public class GameSystem : MonoBehaviour
 
         _AcakSoal = new List<int>(new int[Drag_Obj.Length]);
 
-        for(int i=0; i<_AcakSoal.Count; i++)
+        for (int i = 0; i < _AcakSoal.Count; i++)
         {
             rand = Random.Range(1, DataPermainan.Length);
             while (_AcakSoal.Contains(rand))
@@ -115,8 +162,8 @@ public class GameSystem : MonoBehaviour
 
             _AcakSoal[i] = rand;
 
-            Drag_Obj[i].ID = rand - 1;  
-            Drag_Obj[i].Texts.text = DataPermainan[rand-1].Nama;
+            Drag_Obj[i].ID = rand - 1;
+            Drag_Obj[i].Texts.text = DataPermainan[rand - 1].Nama;
 
         }
 
@@ -124,13 +171,13 @@ public class GameSystem : MonoBehaviour
 
         for (int i = 0; i < _AcakPos.Count; i++)
         {
-            rand = Random.Range(1, _AcakSoal.Count+1);
+            rand = Random.Range(1, _AcakSoal.Count + 1);
             while (_AcakPos.Contains(rand))
-                rand = Random.Range(1, _AcakSoal.Count + 1); 
+                rand = Random.Range(1, _AcakSoal.Count + 1);
 
             _AcakPos[i] = rand;
 
-            Drop_Tempat[i].Drop.ID = _AcakSoal[rand - 1]-1;
+            Drop_Tempat[i].Drop.ID = _AcakSoal[rand - 1] - 1;
             Drop_Tempat[i].Gambar.sprite = DataPermainan[Drop_Tempat[i].Drop.ID].Gambar;
         }
 

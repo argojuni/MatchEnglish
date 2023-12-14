@@ -212,3 +212,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d790d079ed5eda4093d7c93beec1aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsTransisi: 1
+  IsTidakPerlu: 1
