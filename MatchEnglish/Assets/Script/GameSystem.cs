@@ -11,7 +11,11 @@ public class GameSystem : MonoBehaviour
 {
     public static GameSystem instance;
 
-    int maxLevel = 1;
+    public string nameOldGameScene;
+
+    public string nameNewGameScene,nameGameEnd;
+
+    int maxLevel = 10;
 
     [Header("Data Game")]
     public bool isGameActive;
@@ -70,7 +74,7 @@ public class GameSystem : MonoBehaviour
     {
         Data.DataWaktu = 60 * 3;
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Game0")
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == nameOldGameScene)
         {
             Data.DataWaktu = 60 * 3;
             Data.DataScore = 0;
@@ -102,7 +106,7 @@ public class GameSystem : MonoBehaviour
                 isGameSelesai = true;
 
                 // Game Over
-                GUI_Transisi.GetComponent<UI_Control>().btn_pindah("GameSelesai");
+                GUI_Transisi.GetComponent<UI_Control>().btn_pindah(nameGameEnd);
 
             }
 
@@ -112,7 +116,7 @@ public class GameSystem : MonoBehaviour
                 isGameSelesai = true;
 
                 //Fungsi Kalah
-                GUI_Transisi.GetComponent<UI_Control>().btn_pindah("GameSelesai");
+                GUI_Transisi.GetComponent<UI_Control>().btn_pindah(nameGameEnd);
 
             }
 
@@ -129,13 +133,13 @@ public class GameSystem : MonoBehaviour
                     Data.DataLevel++;
                     //Pindah ke next level
 
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("Game" + Data.DataLevel);
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(nameNewGameScene + Data.DataLevel);
                     //GUI_Transisi.GetComponent<UI_Control>().btn_pindah("Game"+Data.DataLevel);
                 }
                 else
                 {
                     //Game selesai pindah ke menu selesai
-                    GUI_Transisi.GetComponent<UI_Control>().btn_pindah("GameEasySelesai");
+                    GUI_Transisi.GetComponent<UI_Control>().btn_pindah(nameGameEnd);
                 }
 
             }

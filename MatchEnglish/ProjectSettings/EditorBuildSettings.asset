@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Game0.unity
-    guid: 3fc8acdd13e6c734bafef6554d6fdbcd
+    path: Assets/Scenes/GameEasy0.unity
+    guid: dd3f4820b627fd64da3825faaa2ba43f
+  - enabled: 1
+    path: Assets/Scenes/GameEasy1.unity
+    guid: 5a9aa1e9e7075094b845e9f1920c2d6a
+  - enabled: 1
+    path: Assets/Scenes/GameEasy2.unity
+    guid: 4dbd669f1821a8e49a636ea83ef3e080
   - enabled: 1
     path: Assets/Scenes/GameEasySelesai.unity
     guid: 6df543da1a49c084b9c52bfe17468cfc

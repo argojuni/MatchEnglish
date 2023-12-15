@@ -393,6 +393,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16517119d91ed47ad103ae10cb4862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameOldGameScene: GameEasy0
+  nameNewGameScene: GameEasy
+  nameGameEnd: GameEasySelesai
+  maxLevelStr: 3
   isGameActive: 0
   isGameSelesai: 0
   SistemAcak: 1

@@ -19,7 +19,7 @@ public class UI_Control : MonoBehaviour
 
     public void btn_suara(int id)
     {
-
+        AudioManager.instance.Sound_sfx(0);
     }
 
     public void btn_pindah(string nama)
@@ -39,5 +39,11 @@ public class UI_Control : MonoBehaviour
     public void pindah()
     {
         SceneManager.LoadScene(SaveNamaScene);
+    }
+
+    public void BtnQuit()
+    {
+        Application.Quit();
+        Debug.Log("Keluar Game");
     }
 }
