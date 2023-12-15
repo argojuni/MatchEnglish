@@ -15,7 +15,7 @@ public class GameSystem : MonoBehaviour
 
     public string nameNewGameScene,nameGameEnd;
 
-    int maxLevel = 10;
+    int maxLevel = 3;
 
     [Header("Data Game")]
     public bool isGameActive;
@@ -107,6 +107,8 @@ public class GameSystem : MonoBehaviour
 
                 // Game Over
                 GUI_Transisi.GetComponent<UI_Control>().btn_pindah(nameGameEnd);
+                AudioManager.instance.Sound_sfx(3);
+                AudioManager.instance.source_BGM.Stop();
 
             }
 
@@ -117,7 +119,8 @@ public class GameSystem : MonoBehaviour
 
                 //Fungsi Kalah
                 GUI_Transisi.GetComponent<UI_Control>().btn_pindah(nameGameEnd);
-
+                AudioManager.instance.Sound_sfx(3);
+                AudioManager.instance.source_BGM.Stop();
             }
 
             if (DataSaatIni >= Target)
@@ -135,11 +138,15 @@ public class GameSystem : MonoBehaviour
 
                     UnityEngine.SceneManagement.SceneManager.LoadScene(nameNewGameScene + Data.DataLevel);
                     //GUI_Transisi.GetComponent<UI_Control>().btn_pindah("Game"+Data.DataLevel);
+                    AudioManager.instance.Sound_sfx(5);
                 }
                 else
                 {
                     //Game selesai pindah ke menu selesai
                     GUI_Transisi.GetComponent<UI_Control>().btn_pindah(nameGameEnd);
+                    AudioManager.instance.Sound_sfx(4);
+                    AudioManager.instance.source_BGM.Stop();
+
                 }
 
             }

@@ -27,7 +27,7 @@ public class ObjDrag : MonoBehaviour
 
     private void OnMouseDown()
     {
-        
+        AudioManager.instance.Sound_sfx(0);
     }
     private void OnMouseUp()
     {
@@ -56,12 +56,16 @@ public class ObjDrag : MonoBehaviour
                 //Jika Berhasil
                 GameSystem.instance.DataSaatIni++;
                 Data.DataScore += 10;
+
+                AudioManager.instance.Sound_sfx(1);
+
             }
             else
             {
                 transform.position = SavePosisi;
                 //Jika Gagal
                 Data.DataDarah--;
+                AudioManager.instance.Sound_sfx(6);
             }
         }
         else

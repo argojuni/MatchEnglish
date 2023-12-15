@@ -27,6 +27,7 @@ public class UI_Control : MonoBehaviour
         this.gameObject.SetActive(true);
         SaveNamaScene = nama;
         GetComponent<Animator>().Play("OutTransisi");
+        AudioManager.instance.source_BGM.Play();
     }
 
     public void btn_restart()
